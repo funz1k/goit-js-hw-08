@@ -2,8 +2,6 @@ const throttle = require('lodash.throttle');
 
 
 const STORAGE_KEY = 'feedback-form-state';
-const formData = {};
-
 
 const refs = {
     form: document.querySelector('.feedback-form'),
@@ -23,25 +21,22 @@ function onFormSubmit(e) {
 }
 
 function onFormData(e) {
+    const parseData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 
-    console.log(formData);
-    if (localStorage.STORAGE_KEY) {
-        const parseData = JSON.parse(localStorage.getItem(STORAGE_KEY))
-        formData = { ...parseData };
-        formData[e.target.name] = e.target.value
-        console.log(formData);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(formData))
-    } else {
-        formData[e.target.name] = e.target.value
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(formData))
-    }
+    parseData[e.target.name] = e.target.value;
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(parseData));
 }
 
 function populatedTextarea() {
-    const savedMessage = localStorage.getItem(STORAGE_KEY)
+    const savedMessage = localStorage.getItem(STORAGE_KEY);
     if (savedMessage) {
-        const parseMessage = JSON.parse(savedMessage)
-        refs.textarea.value = parseMessage.message || ''
-        refs.input.value = parseMessage.email || ''
+        const parseMessage = JSON.parse(savedMessage);
+
+        if (parseMessage) {
+            Object.keys(parseMessage).forEach((key) => {
+                refs.form.elements[key].value = parseMessage[key];
+            });
+        }
     }
 }
