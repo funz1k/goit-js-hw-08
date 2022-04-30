@@ -19,6 +19,11 @@ function onFormSubmit(e) {
     if (refs.input.value === '' || refs.textarea.value === '') {
         alert('Все поля формы должны бать заполнены')
     } else {
+        const formData = {
+            emsil: refs.input.value,
+            message: refs.textarea.value,
+        }
+        console.log(formData);
         e.currentTarget.reset()
         localStorage.removeItem(STORAGE_KEY)
     }
