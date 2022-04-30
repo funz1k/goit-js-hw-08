@@ -16,8 +16,13 @@ populatedTextarea();
 
 function onFormSubmit(e) {
     e.preventDefault();
-    e.currentTarget.reset()
-    localStorage.removeItem(STORAGE_KEY)
+    if (refs.input.value === '' || refs.textarea.value === '') {
+        alert('Все поля формы должны бать заполнены')
+    } else {
+        e.currentTarget.reset()
+        localStorage.removeItem(STORAGE_KEY)
+    }
+
 }
 
 function onFormData(e) {
